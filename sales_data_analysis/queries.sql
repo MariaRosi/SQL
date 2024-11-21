@@ -217,9 +217,13 @@ quarter(order_date) as order_quarter,
 month(order_date) as order_month,
 monthname(order_date) as order_month_name,
 day(order_date) as order_day
+from orders_data;
+
+select order_id,
+order_date,
+ship_date,
+datediff(ship_date, order_date) as delivery_days
 from orders_data
-
-
 
 -- from -> join --> where -> group by -> having -> select -> order by -> limit
 
