@@ -163,7 +163,22 @@ select
 	ProductID,
 	Sales,
 	sum(Sales) over(partition by ProductID) as TotalSalesByProduct,
-	sum(Sales) over(partition by ProductID order by OrderDate) as RunningTotalSalesByProduct
+	sum(Sales) over(partition by ProductID order by OrderDate) as RunningSalesByProduct
+from Sales.Orders;
+
+select
+	OrderID,
+	OrderDate,
+	ProductID,
+	Sales,
+	sum(Sales) over(
+	                partition by ProductID
+					) as TotalSalesByProduct,
+	sum(Sales) over(
+					partition by ProductID 
+					order by OrderDate 
+					rows between current row and 1 following
+					) as RollingSalesByProduct
 from Sales.Orders;
 
 select
