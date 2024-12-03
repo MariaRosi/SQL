@@ -79,7 +79,30 @@ from
 	from 
 	Sales.Orders
 ) t
-group by CustomerID
+group by CustomerID;
 
+-----------------------------------------------------------------------------------------
+-- FIRST_VALUE , LAST_VALUE
+
+select
+	OrderDate,
+	OrderID,
+	ProductID,
+	Sales,
+	first_value(Sales) over(partition by ProductId order by Sales) as LowestSales,
+	last_value(Sales) over(partition by ProductId order by Sales
+						   rows between current row and unbounded following) as HighestSales
+from 
+Sales.Orders;
+
+select 
+    SaleDate,
+	month(SaleDate) as SaleMonth,
+	Sales,
+	first_value(Sales) over(partition by month(SaleDate) order by SaleDate) as FirstSaleOfMonth,
+	last_value(Sales) over(partition by month(SaleDate) order by SaleDate
+	                       rows between unbounded preceding and unbounded following) as LastSaleOfMonth
+from 
+Sales.MonthlySales;
 
 
